@@ -47,7 +47,9 @@ namespace DemoEventStore.Services
         public async Task<IEnumerable<StoredEvent>> ObterEventosPedido(int codigoPedido)
         {
             return await _eventSourcingRepository.ObterEventos(codigoPedido);
-
         }
+
+        public async Task<IEnumerable<Pedido>> ObterTodos() =>
+            await _pedidoRepository.ObterTodos();
     }
 }

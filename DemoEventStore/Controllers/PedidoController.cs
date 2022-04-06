@@ -38,5 +38,11 @@ namespace DemoEventStore.Controllers
         {
             return Ok(await _pedidoService.ObterEventosPedido(id));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ObterTodos()
+        {
+            return Ok(await _pedidoService.ObterTodos());
+        }
     }
 }

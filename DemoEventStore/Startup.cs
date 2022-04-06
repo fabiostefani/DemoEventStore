@@ -2,7 +2,9 @@ using DemoEventStore.Context;
 using DemoEventStore.EventStore;
 using DemoEventStore.Repositories;
 using DemoEventStore.Services;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,15 @@ namespace DemoEventStore
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
 
+            services.AddHealthChecks()
+                .AddEventStore(Configuration.GetConnectionString("EventStoreConnection"));
+            services.AddHealthChecksUI(options =>
+            {
+                options.SetEvaluationTimeInSeconds(15);
+                options.MaximumHistoryEntriesPerEndpoint(10);
+            })
+            .AddInMemoryStorage();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -54,9 +65,24 @@ namespace DemoEventStore
 
             app.UseAuthorization();
 
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+                {
+                    //Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecksUI(options =>
+                {
+                    options.UIPath = "/hc-ui";
+
+                    options.UseRelativeApiPath = false;
+                    options.UseRelativeResourcesPath = false;
+                    options.UseRelativeWebhookPath = false;
+                });
             });
         }
     }
