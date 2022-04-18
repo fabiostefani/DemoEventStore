@@ -27,8 +27,7 @@ namespace DemoEventStore.Services
 
             pedidoDto.AggregateId = pedido.Id;
             _eventSourcingRepository.SalvarEvento(pedidoDto);
-
-            /////SIMULAÇÃO DE PROCESSAMENTO DO EVENTO DE BAIXA NO ESTOQUE
+            
             var baixarEstoqueEvent = new ProcessarBaixaEstoqueEvent
             {
                 AggregateId = pedido.Id,

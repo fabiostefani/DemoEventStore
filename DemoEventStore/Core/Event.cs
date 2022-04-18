@@ -4,7 +4,7 @@ namespace DemoEventStore.Core
 {
     public abstract class Event
     {
-        public DateTime Timestamp { get; private set; }
+        private DateTime Timestamp { get; set; }
         public string MessageType { get; private set; }
         public int AggregateId { get; set; }
 

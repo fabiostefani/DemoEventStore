@@ -1,7 +1,6 @@
 ﻿using DemoEventStore.Dtos;
 using DemoEventStore.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace DemoEventStore.Controllers
@@ -10,18 +9,10 @@ namespace DemoEventStore.Controllers
     [Route("[controller]")]
     public class PedidoController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<PedidoController> _logger;
         private readonly IPedidoService _pedidoService;
 
-        public PedidoController(ILogger<PedidoController> logger,
-                                IPedidoService pedidoService)
+        public PedidoController(IPedidoService pedidoService)
         {
-            _logger = logger;
             _pedidoService = pedidoService;
         }
 

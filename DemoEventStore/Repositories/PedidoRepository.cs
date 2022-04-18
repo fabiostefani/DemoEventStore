@@ -24,6 +24,6 @@ namespace DemoEventStore.Repositories
         public async Task<IEnumerable<Pedido>> ObterTodos() =>
             await _context.Pedidos.ToListAsync();
 
-        int ProximoCodigo() => _context.Pedidos.ToList().Count + 1;
+        private int ProximoCodigo() => _context.Pedidos.ToList().Count + 1;
     }
 }
